@@ -43,7 +43,7 @@ export class Auth implements OnInit {
     if(this.revisionTokenInterval) clearInterval(this.revisionTokenInterval);
   }
 
-  /** Revisa cada 10 minutos que el token siga siendo valido */
+ 
   revisionToken() {
     return setInterval(() => {
       if (this.token) {

@@ -28,7 +28,7 @@ export class ContactListItem {
       cancelButtonText: "Cancelar",
       confirmButtonText: `Borrar definitivamente`
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
+      
       if (result.isConfirmed) {
         this.contactsService.deleteContact(this.contacto().id).then(res =>{
           if(res){

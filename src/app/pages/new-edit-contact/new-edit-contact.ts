@@ -64,7 +64,7 @@ export class NewEditContact implements OnInit {
       image: form.value.image,
       number: form.value.number,
       company: form.value.company,
-      isFavorite: form.value.isFavourite || false
+      isFavorite: form.value.isFavorite || false
     }
 
     this.solicitudABackEnCurso = true;

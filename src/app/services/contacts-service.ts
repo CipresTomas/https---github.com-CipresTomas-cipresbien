@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Contact, NewContact } from '../interfaces/contacto';
 import { Auth } from './auth';
 
@@ -10,9 +10,9 @@ export class ContactsService {
   readonly URL_BASE = "https://agenda-api.somee.com/api/contacts";
 
   
-  contacts:Contact[] = [];
-
+  contacts = signal<Contact[]>([]);
   
+
   async createContact(nuevoContacto:NewContact) {
     const res = await fetch(this.URL_BASE, 
       {
@@ -25,11 +25,12 @@ export class ContactsService {
       });
     if(!res.ok) return;
     const resContact:Contact = await res.json();
-    this.contacts.push(resContact);
+    
+    
+    this.contacts.update(contacts => [...contacts, resContact]);
     return resContact;
   }
 
- 
   async deleteContact(id:number){
     const res = await fetch(this.URL_BASE+"/"+id, 
       {
@@ -39,7 +40,8 @@ export class ContactsService {
         },
       });
     if(!res.ok) return;
-    this.contacts = this.contacts.filter(contact => contact.id !== id);
+    
+    this.contacts.update(contacts => contacts.filter(contact => contact.id !== id));
     return true;
   }
 
@@ -55,14 +57,13 @@ export class ContactsService {
       });
     if(!res.ok) return;
    
-    this.contacts = this.contacts.map(oldContact =>{
-      if(oldContact.id === contact.id) return contact;
-      return oldContact
-    })
+   
+    this.contacts.update(contacts => 
+      contacts.map(oldContact => oldContact.id === contact.id ? contact : oldContact)
+    );
     return contact;
   }
 
-  
   async getContacts(){
     const res = await fetch('https://agenda-api.somee.com/api/Contacts',
       {
@@ -73,11 +74,11 @@ export class ContactsService {
       })
       if(res.ok){
         const resJson:Contact[] = await res.json()
-        this.contacts = resJson;
+        
+        this.contacts.set(resJson);
       }
   }
 
- 
   async getContactById(id:string | number){
     const res = await fetch(this.URL_BASE+"/"+id,
       {
@@ -93,7 +94,6 @@ export class ContactsService {
       return null;
   }
 
-  
   async setFavourite(id:string | number ) {
     const res = await fetch(this.URL_BASE+"/"+id+"/favorite", 
       {
@@ -104,14 +104,28 @@ export class ContactsService {
       });
     if(!res.ok) return;
    
-    this.contacts = this.contacts.map(contact => {
+    this.contacts.set(this.contacts().map(contact => {
       if(contact.id === id) {
         return {...contact, isFavorite: !contact.isFavorite};
       };
       return contact;
-    });
+    }));
     return true;
   }
-  
-}
-
+async setFavorite(id:string | number ) {
+  const res = await fetch(this.URL_BASE+"/"+id+"/favorite", 
+    {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer "+this.authService.token,
+      },
+    });
+  if(!res.ok) return;
+ 
+  this.contacts.update(contacts => 
+    contacts.map(contact => 
+      contact.id === id ? {...contact, isFavorite: !contact.isFavorite} : contact
+    )
+  );
+  return true;
+}}
