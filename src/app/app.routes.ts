@@ -22,7 +22,7 @@ export const routes: Routes = [
 
     },
     {
-        // Path vacío se abre cuando la página no tiene url más que localhost
+       
         path: "",
         component: LoggedLayout,
         canActivateChild: [onlyUserGuard],

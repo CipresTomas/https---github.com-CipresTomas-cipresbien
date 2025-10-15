@@ -76,7 +76,12 @@
             ],
             "styles": [
               "src/styles.css"
-            ]
+            ],
+            "build": {
+  "options": {
+    "polyfills": ["zone.js"]
+  }
+}
           }
         }
       }
