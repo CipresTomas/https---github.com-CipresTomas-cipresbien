@@ -9,9 +9,12 @@ import { onlyUserGuard } from './guards/only-user-guard-guard';
 import { NewEditContact } from './pages/new-edit-contact/new-edit-contact';
 
 
+
+
 export const routes: Routes = [
+
     {
-        path: "login",
+        path: "login/:id",
         component: LoginPage,
         canActivate: [onlyPublicGuard]
     },
@@ -19,10 +22,8 @@ export const routes: Routes = [
         path: "register",
         component: RegisterPage,
         canActivate: [onlyPublicGuard]
-
     },
     {
-       
         path: "",
         component: LoggedLayout,
         canActivateChild: [onlyUserGuard],
@@ -30,14 +31,15 @@ export const routes: Routes = [
             {
                 path: "",
                 component: ContactListPage
-            }, {
+            },
+            {
                 path: "contacts/new",
                 component: NewEditContact
-            }, {
+            },
+            {
                 path: "contacts/:idContacto/edit",
                 component: NewEditContact
             },
-          
             {
                 path: "contacts/:idContacto",
                 component: ContactDetailsPage

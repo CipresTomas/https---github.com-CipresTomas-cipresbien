@@ -1,11 +1,10 @@
-<!-- Toda la parte de nuevo contacto luego irá en una nueva pestaña o en una ventana emergente. A elección. -->
 <div id="container" class="card">
-
- @if(idContacto()){
-   <h2>Editar contacto</h2>
-} @else { 
-  <h2>Nuevo contacto</h2>
+  @if(idContacto()){  
+    <h2>Editar contacto</h2>
+  } @else { 
+    <h2>Nuevo contacto</h2>
   }
+  
  <form (ngSubmit)="handleFormSubmission(newContactForm)" #newContactForm="ngForm">
   <div>
     <label for="first-name">Nombre*</label>
@@ -42,17 +41,19 @@
     <label for="image">URL Imagen</label>
     <input id="image" name="image" type="text" ngModel minlength="10">
   </div>
+  
   @if (errorEnBack) {
     <p class="error">Error indeterminado, intente nuevamente.</p>
   } 
-  @if(idContacto()){
+  
+  @if(idContacto()){ 
     <button [disabled]="newContactForm.invalid || solicitudABackEnCurso">Editar</button>
   } @else { 
     <button [disabled]="newContactForm.invalid || solicitudABackEnCurso">Agregar</button>
   }
+  
   @if (solicitudABackEnCurso) {
     <app-spinner/>
   }
-
  </form>
- </div>
+</div>

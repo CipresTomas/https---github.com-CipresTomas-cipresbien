@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -16,6 +16,7 @@ export class LoginPage {
   solicitudABackEnCurso = false;
 
   errorLogin = false;
+  id = input.required<string>();
 
   async login(form:NgForm){
     console.log(form.value)

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router'; 
 import { FormUser } from '../../interfaces/user';
 import { UsersService } from '../../services/users-service';
 
@@ -15,6 +15,7 @@ export class RegisterPage {
   errorRegister = false;
 
   userService = inject(UsersService);
+  router = inject(Router); 
 
   async register(form: FormUser) {
     this.errorRegister = false;
@@ -39,7 +40,9 @@ export class RegisterPage {
     });
     this.isLoading = false;
 
-    if (!ok) {
+    if (ok) {
+      this.router.navigate(['/']); 
+    } else {
       this.errorRegister = true;
     }
   }

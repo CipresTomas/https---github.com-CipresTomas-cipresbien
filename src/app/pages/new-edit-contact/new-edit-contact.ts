@@ -1,7 +1,7 @@
-import { Component, inject, input, OnInit, viewChild } from '@angular/core';
+import { Component, effect, inject, input, OnInit, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ContactsService } from '../../services/contacts-service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router'; // ← Agregar ActivatedRoute
 import { Contact, NewContact } from '../../interfaces/contacto';
 import { Spinner } from '../../components/spinner/spinner';
 
@@ -13,16 +13,28 @@ import { Spinner } from '../../components/spinner/spinner';
 })
 export class NewEditContact implements OnInit {
   contactsService = inject(ContactsService);
-  router = inject(Router)
+  router = inject(Router);
+  route = inject(ActivatedRoute); // ← Inyectar ActivatedRoute
+  
   errorEnBack = false;
   idContacto = input<string>();
+  imprimir = effect(() => {
+    console.log('idContacto cambiado a:', this.idContacto());
+  });
   contactoBack:Contact | undefined = undefined;
   form = viewChild<NgForm>("newContactForm");
   solicitudABackEnCurso = false;
   
   async ngOnInit() {
+    console.log(' idContacto input:', this.idContacto());
+    console.log(' Parámetros de ruta:', this.route.snapshot.params);
+    console.log(' URL completa:', this.route.snapshot.url);
+    
     if(this.idContacto()){
+      console.log(' MODO EDITAR - ID:', this.idContacto());
       const contacto:Contact|null = await this.contactsService.getContactById(this.idContacto()!);
+      console.log(' Contacto encontrado:', contacto);
+      
       if(contacto){
         this.contactoBack = contacto;
         this.form()?.setValue({
@@ -35,7 +47,10 @@ export class NewEditContact implements OnInit {
           lastName: contacto.lastName,
           number: contacto.number
         })
+        console.log('Formulario cargado con datos');
       }
+    } else {
+      console.log(' MODO NUEVO contacto');
     }
   }
 
@@ -49,14 +64,16 @@ export class NewEditContact implements OnInit {
       image: form.value.image,
       number: form.value.number,
       company: form.value.company,
-      isFavorite: form.value.isFavorite
+      isFavorite: form.value.isFavourite || false
     }
 
     this.solicitudABackEnCurso = true;
     let res;
     if(this.idContacto()){
+      console.log(' Guardando edición...');
       res = await this.contactsService.editContact({...nuevoContacto,id:this.contactoBack!.id});
     } else {
+      console.log(' Creando nuevo contacto...');
       res = await this.contactsService.createContact(nuevoContacto);
     }
     this.solicitudABackEnCurso = false;
@@ -65,6 +82,8 @@ export class NewEditContact implements OnInit {
       this.errorEnBack = true;
       return
     };
-    this.router.navigate(["/contacts",res.id]);
+    
+    
+    this.router.navigate(["/"]);
   }
 }

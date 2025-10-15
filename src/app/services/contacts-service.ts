@@ -9,10 +9,10 @@ export class ContactsService {
   authService = inject(Auth);
   readonly URL_BASE = "https://agenda-api.somee.com/api/contacts";
 
-  /** Lista de contactos en memoria */
+  
   contacts:Contact[] = [];
 
-  /** Crea un contacto */
+  
   async createContact(nuevoContacto:NewContact) {
     const res = await fetch(this.URL_BASE, 
       {
@@ -29,7 +29,7 @@ export class ContactsService {
     return resContact;
   }
 
-  /** Elimina un contacto segun su ID */
+ 
   async deleteContact(id:number){
     const res = await fetch(this.URL_BASE+"/"+id, 
       {
@@ -54,7 +54,7 @@ export class ContactsService {
         body: JSON.stringify(contact)
       });
     if(!res.ok) return;
-    /** Actualizo la lista de leads locales para dejar el lead que actualice actualizado */
+   
     this.contacts = this.contacts.map(oldContact =>{
       if(oldContact.id === contact.id) return contact;
       return oldContact
@@ -62,7 +62,7 @@ export class ContactsService {
     return contact;
   }
 
-  /** Obtiene los contactos del backend */
+  
   async getContacts(){
     const res = await fetch('https://agenda-api.somee.com/api/Contacts',
       {
@@ -77,7 +77,7 @@ export class ContactsService {
       }
   }
 
-  /** Obtiene un contacto del backend */
+ 
   async getContactById(id:string | number){
     const res = await fetch(this.URL_BASE+"/"+id,
       {
@@ -93,7 +93,7 @@ export class ContactsService {
       return null;
   }
 
-  /** Marca/desmarca un contacto como favorito */
+  
   async setFavourite(id:string | number ) {
     const res = await fetch(this.URL_BASE+"/"+id+"/favorite", 
       {
@@ -103,7 +103,7 @@ export class ContactsService {
         },
       });
     if(!res.ok) return;
-    /** Edita la lista actual de contactos reemplazando sólamente el favorito del que editamos */
+   
     this.contacts = this.contacts.map(contact => {
       if(contact.id === id) {
         return {...contact, isFavorite: !contact.isFavorite};
