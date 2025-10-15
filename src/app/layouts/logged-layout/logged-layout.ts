@@ -22,7 +22,6 @@ export class LoggedLayout {
       cancelButtonText: "Cancelar",
       confirmButtonText: `Cerrar sesión`
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.authService.logout();
       } 

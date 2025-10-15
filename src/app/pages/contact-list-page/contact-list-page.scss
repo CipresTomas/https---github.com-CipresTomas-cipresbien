@@ -1,5 +1,38 @@
-@use "./../../../../public/styles/forms-pages.scss";
 
-.importante{
-    background-color: green;
+
+h1 {
+  color: #4682B4;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #e6f7ff;
+  border-radius: 5px;
+  text-align: center;
+}
+
+a[routerLink="/contacts/new"] {
+  display: inline-block;
+  background-color: #87CEEB;
+  color: white;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  font-size: 1.1rem;
+}
+
+a[routerLink="/contacts/new"]:hover {
+  background-color: #4682B4;
 }

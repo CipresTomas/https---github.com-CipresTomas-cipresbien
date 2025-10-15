@@ -1,3 +1,35 @@
-p{
-    color: red;
+
+p {
+  background-color: #e6f7ff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border-left: 4px solid #87CEEB;
+}
+
+a {
+  background-color: #87CEEB;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+a:hover {
+  background-color: #4682B4;
+}
+
+button {
+  background-color: #87CEEB;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4682B4;
 }
