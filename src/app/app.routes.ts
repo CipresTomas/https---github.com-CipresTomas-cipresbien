@@ -14,7 +14,7 @@ import { NewEditContact } from './pages/new-edit-contact/new-edit-contact';
 export const routes: Routes = [
 
     {
-        path: "login/:id",
+        path: "login",
         component: LoginPage,
         canActivate: [onlyPublicGuard]
     },
